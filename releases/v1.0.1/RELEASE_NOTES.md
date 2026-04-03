@@ -28,3 +28,5 @@
 - Flash `orangepi/chrometech-edge-v1.0.1.img.xz` with Balena Etcher.
 - Install the bundled Android Hub and Client APKs after flashing.
 - For the safest pairing experience, let the client tablet finish first boot and register before pairing from the hub.
+
+- Hotfix: corrected `/opt/chrometech-edge/data/edge.db` ownership/permissions to `edgeapp:edgeapp` with writable mode for runtime init on freshly flashed SD cards.
