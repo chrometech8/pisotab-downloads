@@ -1,1 +1,1 @@
-releases/v1.0.0/orangepi/*.img.xz filter=lfs diff=lfs merge=lfs -text
+releases/**/*.img.xz filter=lfs diff=lfs merge=lfs -text
