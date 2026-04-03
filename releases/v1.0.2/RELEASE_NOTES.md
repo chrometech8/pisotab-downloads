@@ -8,6 +8,8 @@ Date: 2026-04-04
 - Payment capture open-screen stability hardening was included to reduce rapid-tap race failures.
 
 ## Included Assets
+- `android/chrometech-client-1.0.2-release.apk`
+- `android/chrometech-hub-1.0.2-release.apk`
 - `orangepi/chrometech-edge-v1.0.2.img.xz`
 - `orangepi/chrometech-edge-v1.0.2.img.xz.sha256`
 
@@ -30,10 +32,19 @@ Date: 2026-04-04
 - Root filesystem inspection verified updated backend files and edge data-path permissions.
 - Partition table preserved (bootable DOS label + Linux partition).
 
+## Android Compatibility Patch Notes (for OrangePi v1.0.2)
+- Recommended pair: OrangePi image `v1.0.2` with Android Hub/Client APKs `v1.0.2`.
+- Compatibility target: Android 11+ tablets for Hub and Client.
+- Hub tile/open-coin flow is hardened for rapid tap behavior to reduce `open screen failed` race scenarios.
+- Client watchdog/idle behavior is tuned to reduce unintended wake/reopen loops while idle.
+- Use matching Hub and Client release versions (`1.0.2` / `1.0.2`) to avoid protocol/state mismatch.
+
 ## Flashing
 1. Flash `orangepi/chrometech-edge-v1.0.2.img.xz` using Balena Etcher.
 2. Boot OrangePi and wait for edge service startup.
-3. Verify health:
+3. Install:
+   - `android/chrometech-hub-1.0.2-release.apk` on the hub tablet
+   - `android/chrometech-client-1.0.2-release.apk` on client tablets
+4. Verify health:
    - `curl http://10.0.0.1:9000/health` (AP mode)
    - or `curl http://<orangepi-lan-ip>:9000/health`
-
