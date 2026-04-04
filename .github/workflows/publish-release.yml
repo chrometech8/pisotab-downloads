@@ -1,0 +1,56 @@
+name: Publish Public Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          lfs: true
+
+      - name: Resolve tag
+        id: meta
+        shell: bash
+        run: |
+          set -euo pipefail
+          TAG="${GITHUB_REF_NAME}"
+          RELEASE_DIR="releases/${TAG}"
+          if [ ! -d "${RELEASE_DIR}" ]; then
+            echo "Missing release directory: ${RELEASE_DIR}"
+            exit 1
+          fi
+          echo "tag=${TAG}" >> "$GITHUB_OUTPUT"
+          echo "release_dir=${RELEASE_DIR}" >> "$GITHUB_OUTPUT"
+
+      - name: Collect assets
+        id: assets
+        shell: bash
+        run: |
+          set -euo pipefail
+          RELEASE_DIR="${{ steps.meta.outputs.release_dir }}"
+          : > assets.txt
+          find "${RELEASE_DIR}" -type f ! -name 'RELEASE_NOTES.md' | sort > assets.txt
+          if [ ! -s assets.txt ]; then
+            echo "No release assets found in ${RELEASE_DIR}"
+            exit 1
+          fi
+          echo "files<<EOF" >> "$GITHUB_OUTPUT"
+          cat assets.txt >> "$GITHUB_OUTPUT"
+          echo "EOF" >> "$GITHUB_OUTPUT"
+
+      - name: Publish release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ steps.meta.outputs.tag }}
+          name: ChromeTech PisoTAB ${{ steps.meta.outputs.tag }}
+          body_path: ${{ steps.meta.outputs.release_dir }}/RELEASE_NOTES.md
+          files: ${{ steps.assets.outputs.files }}
