@@ -1,0 +1,2 @@
+a20743e3321e24fcb56703ad6a6beabbb1bea499975feae010c609a48b4edbf5  chrometech-client-1.1.4-release.apk
+8c7566cbd2995a2ad5565f538e507178d20858acb3697ed8a37821a70fadecb9  chrometech-hub-1.1.4-release.apk
